@@ -5,5 +5,4 @@ edition = "2018"
 
 [dependencies]
 dynasmrt = "*"
-itertools = "*"
 ffi-support = "*"
