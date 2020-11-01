@@ -6,7 +6,7 @@ use ffi_support::FfiStr;
 use std::{mem, process::Command};
 
 // I bet this could be macro'd away...
-unsafe extern "win64" fn print_str(rcx: FfiStr) {
+unsafe extern "win64" fn print_str(rcx: FfiStr<'_>) {
     println!("{}", rcx.as_str());
 }
 
