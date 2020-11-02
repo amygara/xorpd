@@ -78,12 +78,12 @@ macro_rules! call {
     );};
 }
 
-/// Lol please don't use this if '$reg' is more than 4 chars plz
+/// Lol please don't use this if '$reg' is more than 8 chars plz
 /// I suppose I should probably implement this w/ an xmmm reg...
 #[macro_export]
 macro_rules! print_reg {
     ($ops:ident, $reg:tt) => {
-        let mut bytes = [0; 4];
+        let mut bytes = [0; 8];
         stringify!($reg).bytes().enumerate().for_each(|(i, b)| {
             bytes[i] = b;
         });
@@ -91,7 +91,7 @@ macro_rules! print_reg {
         jit!($ops
             ;; call_prologue!($ops)
             ; mov rcx, $reg
-            ; mov rdx, u32::from_be_bytes(bytes) as _
+            ; mov rdx, QWORD u64::from_be_bytes(bytes) as _
             ; mov  rax, QWORD crate::util::formatters::print_reg as _
             ; call rax
             ;; call_epilogue!($ops)
