@@ -78,6 +78,8 @@ macro_rules! call {
     );};
 }
 
+/// Lol please don't use this if '$reg' is more than 4 chars plz
+/// I suppose I should probably implement this w/ an xmmm reg...
 #[macro_export]
 macro_rules! print_reg {
     ($ops:ident, $reg:tt) => {
