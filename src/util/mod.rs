@@ -22,7 +22,10 @@ macro_rules! jit {
 ///
 /// To do this, we decrement the stack pointer by 0x20 (32 bytes), reserving
 /// 0x8 (8 bytes) per register on the stack. We store them on the stack [in order].
+/// We save these value because they are [considered volatile] and may be modified
+/// by any function that is called later on.
 ///
+/// [considered volatile]: https://docs.microsoft.com/en-us/cpp/build/x64-calling-convention?view=msvc-160#callercallee-saved-registers
 /// [in order]: https://docs.microsoft.com/en-us/cpp/build/x64-calling-convention?view=msvc-160
 #[macro_export]
 macro_rules! entry_point {
@@ -74,8 +77,9 @@ macro_rules! finalize {
 /// This assembly snippet reserve stack space to save volatile variables
 /// in case the callee clobbers them. One tricky note here, the stack frame has
 /// to be 16-byte aligned, so any change to rsp **must** be a [multiple of 16].
-/// Additionally, we reserve extra space for the callee to save regs like RDI/RSI.
+/// Additionally, we reserve extra space for the callee to save regs like [RDI/RSI].
 ///
+/// [RDI/RSI]: https://docs.microsoft.com/en-us/cpp/build/x64-calling-convention?view=msvc-160#callercallee-saved-registers
 /// [setting up a call]: https://docs.microsoft.com/en-us/cpp/build/prolog-and-epilog?view=msvc-160
 /// [multiple of 16]: https://docs.microsoft.com/en-us/cpp/build/stack-usage?view=msvc-160#stack-allocation
 #[macro_export]
